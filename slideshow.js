@@ -19,29 +19,34 @@
 var slideshow = {
     photoList: ['img1', 'img2', 'img3', 'img4'],
     currentPhotoIndex: 0,
-    nextPhoto: function(){
-        for(this.currentPhotoIndex = 0; this.currentPhotoIndex < this.photoList.length; this.currentPhotoIndex++){
+    nextPhoto() {
+        if (this.currentPhotoIndex == (this.photoList.length)){  
+            console.log('End of Slideshow')
+            this.pause()
+        } else {
             console.log(this.photoList[this.currentPhotoIndex])
+            this.currentPhotoIndex++;
         }
-            console.log('End of Slideshow');
-    },
-    prevPhoto: function(){
-        for(this.currentPhotoIndex = this.photoList.length; this.currentPhotoIndex > 0; this.currentPhotoIndex--){
-            console.log(this.photoList[this.currentPhotoIndex- 1])
+    },   
+    prevPhoto() {
+        if (this.currentPhotoIndex == 0){ 
+            console.log('Beginning of Slideshow')
+        } else {
+            console.log(this.photoList[this.currentPhotoIndex]);
+            this.currentPhotoIndex--;
         }
-        console.log('End of Slideshow');
     },
-    getCurrentPhoto: function(){
-        console.log(this.photoList[this.currentPhotoIndex]);
+    getCurrentPhoto() {
+        console.log(this.photoList[this.currentPhotoIndex])
     },
-
-    playInterval: function(fn, ms){
-        setInterval(fn, ms);
+    playInterval: null,
+    play(){
+        this.playInterval = setInterval(this.nextPhoto.bind(this),2000)
     },
+    pause(){
+        clearInterval(this.playInterval)
+    },
+};
 
-    play: function(){
-        return this.playInterval(this.nextPhoto(), 2000);
-    }
-}
 
-slideshow.play();
+slideshow.play()
