@@ -1,0 +1,3 @@
+chicago:City
+germany:Country
+steph curry:Athlete
