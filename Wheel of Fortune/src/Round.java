@@ -89,24 +89,8 @@ class Round {
             showBoard();
             System.out.println("Your spin was " + "$" + spun);
             int money = Integer.valueOf(spun);
-            char letter = guess();
-            int total = countChar(this.word, letter);
-            if (total > 0){
-                System.out.println("Great Guess");
-                showBoard();
-                int winnings = money * total;
-                System.out.println("You won $" + winnings );
-                if (contestant.equals(this.playerOne)){
-                    this.oneRound = this.oneRound + winnings;
-                } else if (contestant.equals(this.playerTwo)){
-                    this.twoRound = this.twoRound + winnings;
-                } else {
-                    this.threeRound = this.threeRound + winnings;
-                }
-            } else {
-                System.out.println("Well that was a bad guess");
-                nextPlayer();
-            }
+            guess(money, contestant);
+
         }
         menu();
     }
@@ -186,7 +170,7 @@ class Round {
         }
     }
 
-        private char guess(){
+        private void guess(int money, String contestant){
            Scanner scanner = new Scanner(System.in);
            char y = 'a';
            System.out.println("Guess a letter");
@@ -195,7 +179,7 @@ class Round {
            String z = x.toUpperCase();
            if (!validate){
                System.out.println("No numbers or symbols, you have to guess a letter");
-               guess();
+               guess(money, contestant);
            } else if (x.length() > 1){
                System.out.println("Ha. Nice try. No guessing more than one letter");
                nextPlayer();
@@ -212,9 +196,26 @@ class Round {
                } else {
                    this.guessed.add(z);
                    y = z.charAt(0);
+                   int total = countChar(this.word, y);
+                   if (total > 0){
+                       System.out.println("Great Guess");
+                       showBoard();
+                       int winnings = money * total;
+                       System.out.println("You won $" + winnings );
+                       if (contestant.equals(this.playerOne)){
+                           this.oneRound = this.oneRound + winnings;
+                       } else if (contestant.equals(this.playerTwo)){
+                           this.twoRound = this.twoRound + winnings;
+                       } else {
+                           this.threeRound = this.threeRound + winnings;
+                       }
+                   } else {
+                       System.out.println("Well that was a bad guess");
+                       nextPlayer();
+                   }
                }
            }
-           return y;
+
         }
 
 
